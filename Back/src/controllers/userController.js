@@ -26,23 +26,30 @@ exports.userRegister = async (req, res) => {
 
 exports.loginRegister = (req, res) => {
     
-    User.findOne({ email: req.body.email, password: req.body.password }).exec()
+    User.findOne({ email: req.body.email }).exec()
         .then(
-            data => {
-                let userData = {
-                    id: data._id,
-                    email: data.email,
-                    role: "User"
+            async data => {
+
+                mdpVerif = await bcrypt.compare(req.body.password, data.password);
+
+                if (mdpVerif) {
+                    let userData = {
+                        id: data._id,
+                        email: data.email,
+                        role: "User"
+                    }
+                    jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
+                        if (error) {
+                            console.log(error);
+                            return res.status(500).json(error);
+                        }
+                        else {
+                            return res.json({ token });
+                        }
+                    })
+                } else {
+                    return res.status(500).json({ message: "Mot de passe incorrect" });
                 }
-                jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
-                    if (error) {
-                        console.log(error);
-                        return res.status(500).send();
-                    }
-                    else {
-                        return res.json({ token });
-                    }
-                })
             }
         )
         .catch(
