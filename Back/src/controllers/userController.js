@@ -17,7 +17,6 @@ exports.userRegister = async (req, res) => {
                 return res.status(401);
             }
         )
-
 }
 
 exports.loginRegister = (req, res) => {
@@ -28,7 +27,7 @@ exports.loginRegister = (req, res) => {
                 let userData = {
                     id: data._id,
                     email: data.email,
-                    role: "admin"
+                    role: "User"
                 }
                 jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
                     if (error) {
@@ -47,4 +46,32 @@ exports.loginRegister = (req, res) => {
                 return res.status(500).json({ message: "Email ou Mot de passe incorrect" });
             }
         )
+}
+
+exports.adminLogin = (req, res) => {
+    User.findOne({ email: req.body.email, password: req.body.password }).exec()
+    .then(
+        data => {
+            let userData = {
+                id: data._id,
+                email: data.email,
+                role: "Admin"
+            }
+            jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500);
+                }
+                else {
+                    return res.json({ token });
+                }
+            })
+        }
+    )
+    .catch(
+        err => {
+            console.log(err);
+            return res.status(500).json({ message: "Email ou Mot de passe incorrect" });
+        }
+    )
 }
