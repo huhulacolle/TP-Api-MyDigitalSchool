@@ -7,18 +7,3 @@ exports.getRandomText = async () => {
     return response.data;
 
 }
-
-// exports.getRandomText = () => {
-//     return new Promise((resolve, reject) => {
-//         axios.get(baseUrl + "/plaintext", {responseType: "text"})
-//         .then((response) => {
-//             resolve(response.data)
-//         })
-//         .catch(error => {
-//             console.log(error);
-//             reject(false);
-//         })
-//     })
-// }
-
-// exports.getRandomImage
