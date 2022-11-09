@@ -1,8 +1,13 @@
 const User = require('../models/userModel');
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 exports.userRegister = async (req, res) => {
+    const saltRounds = 10;
+
+    req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+
     let newUser = new User(req.body);
 
     newUser.save()
@@ -20,7 +25,7 @@ exports.userRegister = async (req, res) => {
 }
 
 exports.loginRegister = (req, res) => {
-
+    
     User.findOne({ email: req.body.email, password: req.body.password }).exec()
         .then(
             data => {
@@ -41,8 +46,7 @@ exports.loginRegister = (req, res) => {
             }
         )
         .catch(
-            err => {
-                console.log(err);
+            () => {
                 return res.status(500).json({ message: "Email ou Mot de passe incorrect" });
             }
         )

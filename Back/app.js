@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 
 const hostname = "0.0.0.0";
 const port = 3000;
@@ -6,7 +7,7 @@ const port = 3000;
 const server = express();
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017");
+mongoose.connect(process.env.MongoDB);
 
 server.use(express.urlencoded());
 server.use(express.json());
