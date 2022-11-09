@@ -1,3 +1,5 @@
+import { UserInput } from './../../interfaces/user-input';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    let test: UserInput;
+    test =  {
+      email: "araujohugo@msn.com",
+      password: "motdepasse"
+    }
+
+    this.authService.login(test)
+    .then(
+      data => {
+        console.log(data);
+      }
+    )
   }
 
 }
