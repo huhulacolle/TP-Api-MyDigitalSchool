@@ -14,7 +14,7 @@ exports.userRegister = async (req, res) => {
         .catch(
             err => {
                 console.log(err);
-                return res.status(401);
+                return res.status(401).send();
             }
         )
 }
@@ -32,7 +32,7 @@ exports.loginRegister = (req, res) => {
                 jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
                     if (error) {
                         console.log(error);
-                        return res.status(500);
+                        return res.status(500).send();
                     }
                     else {
                         return res.json({ token });
@@ -60,7 +60,7 @@ exports.adminLogin = (req, res) => {
             jwt.sign(userData, process.env.JWT_KEY, { expiresIn: "30 days" }, (error, token) => {
                 if (error) {
                     console.log(error);
-                    return res.status(500);
+                    return res.status(500).send();
                 }
                 else {
                     return res.json({ token });

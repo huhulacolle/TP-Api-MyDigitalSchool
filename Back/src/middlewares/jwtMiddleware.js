@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
+const bearerToken = require("../providers/BearerToken");
 require('dotenv').config();
 
 const jwtKey = process.env.JWT_KEY;
 
 exports.verifyToken = (req, res, next) => {
-    let token = extractBearerToken(req.headers['authorization']);
+    let token = bearerToken.extractBearerToken(req.headers['authorization']);
     if(token !== undefined) {
-        jwt.verify(token, jwtKey, (error, payload) => {
+        jwt.verify(token, jwtKey, (error) => {
             if(error) {
                 console.log(error)
                 res.status(401).json({message : 'Accès interdit : token invalide'});
@@ -19,13 +20,4 @@ exports.verifyToken = (req, res, next) => {
     else {
         res.status(401).json({message : "Accès interdit : token manquant"})
     }
-}
-
-function extractBearerToken(headerValue) {
-    if (typeof headerValue !== 'string') {
-        return false
-    }
-
-    const matches = headerValue.match(/(bearer)\s+(\S+)/i)
-    return matches && matches[2]
 }

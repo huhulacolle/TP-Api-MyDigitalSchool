@@ -1,8 +1,8 @@
 const Post = require('../models/postModel');
 const textApiProvider = require("../providers/textApiProvider");
+const BearerToken = require("../providers/BearerToken");
 
 exports.listAllPosts = (req, res) => {
-
     Post.find().exec()
         .then(
             data => {
@@ -12,79 +12,39 @@ exports.listAllPosts = (req, res) => {
         .catch(
             error => {
                 console.log(error);
-                return res.status(500);
+                return res.status(500).send();
             }
         )
 }
 
 exports.createAPost = (req, res) => {
-    let newPost = new Post(req.body);
 
-    let randomTextPromise = textApiProvider.getRandomText();
+    let role = BearerToken.getRole(req.headers['authorization']);
 
-    randomTextPromise.then((response) => {
-        if (!newPost.content) {
-            newPost.content = response;
-        }
+    if (role == "Admin") {
+        let newPost = new Post(req.body);
 
-        newPost.save()
-        .then(
-            data => {
-                res.status(201).json(data);
+        let randomTextPromise = textApiProvider.getRandomText();
+    
+        randomTextPromise.then((response) => {
+            if (!newPost.content) {
+                newPost.content = response;
             }
-        )
-        .catch(
-            error => {
-                console.log(error);
-                res.status(400);
-            }
-        )
-
-    })
-
-}
-
-exports.getAPost = (req, res) => {
-    Post.findById(req.params.post_id, (error, post) => {
-        if (error) {
-            res.status(401);
-            console.log(error);
-            res.json({ message: "Reqûete invalide." });
-        }
-        else {
-            res.status(200);
-            res.json(post);
-        }
-
-    })
-}
-
-exports.updateAPost = (req, res) => {
-    Post.findByIdAndUpdate(req.params.post_id, req.body, { new: true }, (error, post) => {
-        if (error) {
-            res.status(401);
-            console.log(error);
-            res.json({ message: "Reqûete invalide." });
-        }
-        else {
-            res.status(200);
-            res.json(post);
-        }
-
-    })
-}
-
-exports.deleteApost = (req, res) => {
-    Post.findByIdAndRemove(req.params.post_id, (error) => {
-        if (error) {
-            res.status(401);
-            console.log(error);
-            res.json({ message: "Reqûete invalide." });
-        }
-        else {
-            res.status(200);
-            res.json({ message: "Article supprimé" });
-        }
-
-    })
+    
+            newPost.save()
+            .then(
+                data => {
+                    return res.status(201).json(data);
+                }
+            )
+            .catch(
+                error => {
+                    console.log(error);
+                    return res.status(400).send();
+                }
+            )
+        })
+    } else {
+        return res.status(401).send();
+    }
 }
