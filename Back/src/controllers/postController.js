@@ -2,41 +2,43 @@ const Post = require('../models/postModel');
 const textApiProvider = require("../providers/textApiProvider");
 
 exports.listAllPosts = (req, res) => {
-    Post.find({}, (error, posts) => {
-        if (error) {
-            res.status(500);
-            console.log(error);
-            res.json({ message: "Erreur serveur." });
-        }
-        else {
-            res.status(200);
-            res.json(posts);
-        }
-    })
+
+    Post.find().exec()
+        .then(
+            data => {
+                res.json(data);
+            }
+        )
+        .catch(
+            error => {
+                console.log(error);
+                return res.status(500);
+            }
+        )
 }
 
 exports.createAPost = (req, res) => {
     let newPost = new Post(req.body);
 
-
     let randomTextPromise = textApiProvider.getRandomText();
-    
+
     randomTextPromise.then((response) => {
-        if(!newPost.content){
+        if (!newPost.content) {
             newPost.content = response;
         }
 
-        newPost.save((error, post) => {
-            if (error) {
-                res.status(401);
+        newPost.save()
+        .then(
+            data => {
+                res.status(201).json(data);
+            }
+        )
+        .catch(
+            error => {
                 console.log(error);
-                res.json({ message: "Reqûete invalide." });
+                res.status(400);
             }
-            else {
-                res.status(201);
-                res.json(post);
-            }
-        })
+        )
 
     })
 
@@ -81,7 +83,7 @@ exports.deleteApost = (req, res) => {
         }
         else {
             res.status(200);
-            res.json({message: "Article supprimé"});
+            res.json({ message: "Article supprimé" });
         }
 
     })

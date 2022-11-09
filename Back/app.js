@@ -11,11 +11,10 @@ mongoose.connect("mongodb://localhost:27017");
 server.use(express.urlencoded());
 server.use(express.json());
 
-
 const postRoute = require("./src/routes/postRoute");
 postRoute(server);
 
-const commentRoute = require("./src/routes/commentRoute");
-commentRoute(server);
+const userRoute = require("./src/routes/userRoute");
+userRoute(server);
 
 server.listen(port, hostname);
