@@ -5,7 +5,7 @@
         <div class="card bg-dark text-white" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
 
-            <form ngNativeValidate (ngSubmit)="login()">
+            <form (ngSubmit)="login()">
               <div class="mb-md-5 mt-md-4 pb-5">
 
                 <h2 class="fw-bold mb-2 text-uppercase">Connexion</h2>
@@ -38,10 +38,7 @@
                 </p>
               </div>
             </form>
-            <br>
-            <div *ngIf="error">
-              <ngb-alert [type]="errorMessage.type" (closed)="close()">{{ errorMessage.message }}</ngb-alert>
-            </div>
+
           </div>
         </div>
       </div>

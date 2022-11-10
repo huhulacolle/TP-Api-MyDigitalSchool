@@ -17,7 +17,7 @@ import { PostsComponent } from './components/posts/posts.component';
     PostsComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     AppRoutingModule,
     FormsModule,
     NgbModule,

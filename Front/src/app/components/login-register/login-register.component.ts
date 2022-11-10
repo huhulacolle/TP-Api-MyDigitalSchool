@@ -3,7 +3,6 @@ import { AuthService } from './../../services/auth.service';
 import { UserInput } from './../../interfaces/user-input';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Alert } from 'src/app/interfaces/alert';
 
 @Component({
   selector: 'app-login-register',
@@ -21,12 +20,6 @@ export class LoginRegisterComponent implements OnInit {
   email!: string;
   password!: string;
   isAdmin = false;
-  error = false;
-
-  errorMessage: Alert = {
-    type: 'danger',
-    message: "Erreur de mot de passe ou de l'adresse email"
-  }
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -69,7 +62,6 @@ export class LoginRegisterComponent implements OnInit {
       )
       .catch(
         error => {
-          this.error = true;
           console.error(error);
         }
       )
@@ -84,16 +76,10 @@ export class LoginRegisterComponent implements OnInit {
       )
       .catch(
         error => {
-          this.error = true;
           console.error(error);
         }
       )
     }
-  }
-
-
-  close(): void {
-    this.error = false;
   }
 
 }
