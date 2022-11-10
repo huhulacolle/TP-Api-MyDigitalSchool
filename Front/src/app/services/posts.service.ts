@@ -17,4 +17,8 @@ export class PostsService {
     return lastValueFrom(this.http.get<Posts[]>(`${environment.api}posts/`))
   }
 
+  postPosts(post: Posts): Promise<Posts> {
+    return lastValueFrom(this.http.post<Posts>(`${environment.api}posts/`, post))
+  }
+
 }

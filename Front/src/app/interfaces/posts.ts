@@ -1,6 +1,6 @@
 export interface Posts {
-  _id: string,
+  _id?: string,
   title: string,
-  created_at: Date,
+  created_at?: Date,
   content?: string
 }

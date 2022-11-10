@@ -5,6 +5,22 @@
   <button class="btn btn-link" (click)="logout()" style="color: white;" type="button">Deconnexion</button>
 </div>
 
+<div class="container py-3 h-100" *ngIf="isAdmin">
+  <div class="card bg-dark text-white">
+    <form (ngSubmit)="form()">
+      <div class="card-header" style="background-color: #2c3034;">
+        <input type="text" class="form-control" [(ngModel)]="title" name="title" placeholder="Titre" required>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p> <input type="text" class="form-control" [(ngModel)]="content" name="content" placeholder="Contenu"> </p>
+          <button class="float-end btn btn-outline-light btn-lg px-5" type="submit">Enregistrer</button>
+        </blockquote>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="container py-3 h-100">
   <div *ngFor="let post of posts" style="padding: 1em;">
     <div class="card bg-dark text-white">
