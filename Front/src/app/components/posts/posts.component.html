@@ -1,1 +1,19 @@
-<p>liste de postes</p>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button class="btn btn-link" (click)="logout()" style="color: white;" type="button">Deconnexion</button>
+</div>
+
+<div class="container py-3 h-100">
+  <div *ngFor="let post of posts" style="padding: 1em;">
+    <div class="card bg-dark text-white">
+      <div class="card-header" style="background-color: #2c3034;">
+        {{post.title}}
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p> {{post.content}} </p>
+          <footer class="blockquote-footer"> {{post.created_at}} </footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>

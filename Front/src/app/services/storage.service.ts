@@ -21,6 +21,7 @@ export class StorageService {
 
   removeUser(): void {
     sessionStorage.removeItem("Token");
+    this.router.navigateByUrl("/")
   }
 
   getUser(): any {

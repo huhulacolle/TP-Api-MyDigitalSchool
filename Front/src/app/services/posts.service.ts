@@ -13,8 +13,8 @@ export class PostsService {
     private http: HttpClient
   ) { }
 
-  getPosts(): Promise<Posts> {
-    return lastValueFrom(this.http.get<Posts>(environment.api + "posts/"))
+  getPosts(): Promise<Posts[]> {
+    return lastValueFrom(this.http.get<Posts[]>(`${environment.api}posts/`))
   }
 
 }
