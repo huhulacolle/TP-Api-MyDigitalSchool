@@ -27,6 +27,25 @@ export class LoginRegisterComponent implements OnInit {
     }
   }
 
+  register(): void {
+    const user: UserInput = {
+      email: this.email,
+      password: this.password
+    }
+
+    this.authService.register(user)
+    .then(
+      () => {
+        this.login();
+      }
+    )
+    .catch(
+      error => {
+        console.error(error);
+      }
+    )
+  }
+
   login(): void {
     const user: UserInput = {
       email: this.email,

@@ -21,4 +21,8 @@ export class AuthService {
   loginAdmin(userInput: UserInput): Promise<Token> {
     return lastValueFrom(this.http.post<Token>( `${environment.api}user/loginAdmin`, userInput))
   }
+
+  register(userInput: UserInput): Promise<MessageChannel> {
+    return lastValueFrom(this.http.post<MessageChannel>(`${environment.api}user/register`, userInput));
+  }
 }
