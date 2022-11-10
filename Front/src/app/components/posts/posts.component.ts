@@ -1,4 +1,3 @@
-import { AuthService } from './../../services/auth.service';
 import { PostsService } from 'src/app/services/posts.service';
 import { Component, OnInit } from '@angular/core';
 import { Posts } from 'src/app/interfaces/posts';
@@ -15,6 +14,9 @@ export class PostsComponent implements OnInit {
   posts: Posts[] = [];
 
   isAdmin!: boolean;
+
+  title!: string;
+  content!: string;
 
   constructor(
     private storageService: StorageService,
@@ -41,6 +43,24 @@ export class PostsComponent implements OnInit {
     .catch(
       error => {
         console.error(error);
+      }
+    )
+  }
+
+  form(): void {
+    const post: Posts = {
+      title: this.title,
+      content: this.content
+    }
+    this.postsService.postPosts(post)
+    .then(
+      () => {
+        this.getPosts()
+      }
+    )
+    .catch(
+      error => {
+        console.error("erreur");
       }
     )
   }
