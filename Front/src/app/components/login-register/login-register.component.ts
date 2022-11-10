@@ -19,6 +19,7 @@ export class LoginRegisterComponent implements OnInit {
 
   email!: string;
   password!: string;
+  isAdmin = false;
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -31,18 +32,35 @@ export class LoginRegisterComponent implements OnInit {
       email: this.email,
       password: this.password
     }
-    this.authService.login(user)
-    .then(
-      data => {
-        this.storageService.saveUser(data.token);
-        this.router.navigateByUrl("/Post")
-      }
-    )
-    .catch(
-      error => {
-        console.error(error);
-      }
-    )
+
+    if (this.isAdmin) {
+      this.authService.loginAdmin(user)
+      .then(
+        data => {
+          this.storageService.saveUser(data.token);
+          this.router.navigateByUrl("/Post")
+        }
+      )
+      .catch(
+        error => {
+          console.error(error);
+        }
+      )
+    }
+    else {
+      this.authService.login(user)
+      .then(
+        data => {
+          this.storageService.saveUser(data.token);
+          this.router.navigateByUrl("/Post")
+        }
+      )
+      .catch(
+        error => {
+          console.error(error);
+        }
+      )
+    }
   }
 
 }

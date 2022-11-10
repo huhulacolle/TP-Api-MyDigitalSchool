@@ -12,7 +12,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = sessionStorage.getItem('Token');
+    const token = localStorage.getItem('Token');
     if (token) {
       request = request.clone({
         setHeaders: {

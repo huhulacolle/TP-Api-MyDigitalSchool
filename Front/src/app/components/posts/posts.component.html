@@ -1,4 +1,7 @@
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <div *ngIf="isAdmin" class="btn btn-link" style="color : white">
+    Administrateur
+  </div>
   <button class="btn btn-link" (click)="logout()" style="color: white;" type="button">Deconnexion</button>
 </div>
 
